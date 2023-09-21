@@ -25,6 +25,8 @@ export default class WebSessionConcept {
     // to explicitly allocate a session; we only need to keep track of the user.
 
     // TODO: Make sure the user is logged out before allowing a new session to start.
+    this.isLoggedOut(session);
+
     // Hint: Take a look at how the "end" function makes sure the user is logged in. Keep in mind that a
     // synchronization like starting a session should just consist of a series of actions that may throw
     // exceptions and should not have its own control flow.
@@ -46,6 +48,12 @@ export default class WebSessionConcept {
   isActive(session: WebSessionDoc) {
     if (session.user === undefined) {
       throw new UnauthenticatedError("Not logged in!");
+    }
+  }
+
+  isLoggedOut(session: WebSessionDoc) {
+    if (session.user !== undefined) {
+      throw new Error("Previous user still logged in - must logout first!")
     }
   }
 }
